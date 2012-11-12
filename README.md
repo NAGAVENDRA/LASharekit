@@ -58,7 +58,7 @@ Note: If you are not using ARC in your project, add `-fobjc-arc` as a compiler f
 * Init with completion blocks (controller is the target to show the modals)
 
 ``` objective-c
-laSharekit = [[LASharekit alloc] init];
+    laSharekit = [[LASharekit alloc] init];
     [laSharekit setController:self
                         title:nil
                          text:nil
