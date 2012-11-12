@@ -173,7 +173,7 @@
 
 - (void) mostratHUDCargando
 {
-    hud.labelText = NSLocalizedString(@"txt_cargando", @"");
+    hud.labelText = NSLocalizedString(@"Loading...", @"");
     [hud show:YES];
 }
 
