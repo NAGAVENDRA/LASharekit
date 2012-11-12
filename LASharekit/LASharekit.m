@@ -310,11 +310,12 @@ typedef enum {
                                 
                                 // paso los parametros para mandar al feed del usuario 
                                 NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                               composeViewController.attachmentImage, @"source",
+                                                               UIImagePNGRepresentation(composeViewController.attachmentImage), @"source",
                                                                composeViewController.text, @"message",
+                                                               [self.url absoluteString], @"link",
                                                                self.title, @"caption",
                                                                nil];
-                                [FBRequestConnection startWithGraphPath:@"me/feed"
+                                [FBRequestConnection startWithGraphPath:@"me/photos"
                                                              parameters:params
                                                              HTTPMethod:@"POST"
                                                       completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
@@ -325,6 +326,7 @@ typedef enum {
                                                            }
                                                            else
                                                            {
+                                                               NSLog(@"ERROR AT 'startWithGraphPath': %@", [error localizedDescription]);
                                                                [self completionResult:typeCanceled];
                                                            }
                                                        }];

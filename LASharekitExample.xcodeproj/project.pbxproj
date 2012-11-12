@@ -64,7 +64,6 @@
 		48F50B4F16512DB20082A261 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F50B4E16512DB20082A261 /* icon.png */; };
 		48F50B5116512DC30082A261 /* icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F50B5016512DC30082A261 /* icon114.png */; };
 		48F50B531651472E0082A261 /* captura.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F50B521651472E0082A261 /* captura.png */; };
-		48F50B55165148B70082A261 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 48F50B54165148B70082A261 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -425,7 +424,6 @@
 				48F50B4F16512DB20082A261 /* icon.png in Resources */,
 				48F50B5116512DC30082A261 /* icon114.png in Resources */,
 				48F50B531651472E0082A261 /* captura.png in Resources */,
-				48F50B55165148B70082A261 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,6 +573,7 @@
 				48F50AD116510F130082A261 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
