@@ -45,7 +45,7 @@ Using facebook in iOS5:
 
 * You must create a facebook app in [their site](https://developers.facebook.com/apps)
 * Then add the `FacebookAppID` to the `info.plist` file.
-* Add the URLScheme too like `fbYOUR_FACEBOOKAPPID`
+* Add the URLScheme too (it's like `fbYOUR_FACEBOOKAPPID`)
 * Add the facebook methods in the AppDelegate (in the example you can see this)
 
 
