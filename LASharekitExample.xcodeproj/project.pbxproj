@@ -64,6 +64,7 @@
 		48F50B4F16512DB20082A261 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F50B4E16512DB20082A261 /* icon.png */; };
 		48F50B5116512DC30082A261 /* icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F50B5016512DC30082A261 /* icon114.png */; };
 		48F50B531651472E0082A261 /* captura.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F50B521651472E0082A261 /* captura.png */; };
+		48F50B55165148B70082A261 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 48F50B54165148B70082A261 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -139,6 +140,7 @@
 		48F50B4E16512DB20082A261 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		48F50B5016512DC30082A261 /* icon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon114.png; sourceTree = "<group>"; };
 		48F50B521651472E0082A261 /* captura.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = captura.png; sourceTree = "<group>"; };
+		48F50B54165148B70082A261 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 		48F50AA016510F130082A261 = {
 			isa = PBXGroup;
 			children = (
+				48F50B54165148B70082A261 /* README.md */,
 				48F50B521651472E0082A261 /* captura.png */,
 				48F50AD316510F530082A261 /* Extern */,
 				48F50B34165126410082A261 /* LASharekit */,
@@ -422,6 +425,7 @@
 				48F50B4F16512DB20082A261 /* icon.png in Resources */,
 				48F50B5116512DC30082A261 /* icon114.png in Resources */,
 				48F50B531651472E0082A261 /* captura.png in Resources */,
+				48F50B55165148B70082A261 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
