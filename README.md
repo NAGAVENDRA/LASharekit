@@ -17,10 +17,13 @@ Build and run the `LASharekitExample` project in Xcode to see `LASharekit` in ac
 Requeriments
 ==========
 · Xcode 4.5 or higher
+
 · Apple LLVM compiler
+
 · iOS 5.0 or higher
 
 Libraries
+==========
 
 iOS5:
 - FacebookSDK.framework (from facebook) -> https://developers.facebook.com/ios/
