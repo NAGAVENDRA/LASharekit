@@ -7,7 +7,7 @@ Tweet me [@LuisEAM](http://twitter.com/luiseam)
 
 `LASharekit` to automatically share to facebook, twitter, pinterest or by email. With an extra to save images to cameraroll and copy to the pasteboard.
 
-![Screenshot of LASharekit](https://github.com/Lascorbe/LASharekit/blob/master/captura.png)
+![Screenshot of LASharekit](https://raw.github.com/Lascorbe/LASharekit/master/captura.png  "LASharekit Screenshot")
 
 Example
 ==========
