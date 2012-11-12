@@ -42,7 +42,8 @@
     self = [super init];
     if (self)
     {
-        NSAssert(url_ == nil, @"Image URL must not be nil. (Pinterest)");
+        NSAssert(url_, @"Url must not be nil. (Pinterest)");
+        NSAssert(imageUrl_, @"Image URL must not be nil. (Pinterest)");
         
         // Customize
         self.url        = url_;
@@ -104,25 +105,18 @@
     NSString *sImageUrl = [self.imageUrl absoluteString];
     NSLog(@"URL:%@", sUrl);
     
-    NSString *protectedUrl = nil;
-    NSString *protectedImageUrl = nil;
-#if !__has_feature(objc_arc)
-    protectedUrl = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)sUrl, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ",CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-    protectedImageUrl = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)sImageUrl, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ",CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-#else 
-    protectedUrl = (__bridge NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,(__bridge CFStringRef)sUrl, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ",CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-    protectedImageUrl = (__bridge NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,(__bridge CFStringRef)sImageUrl, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ",CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-#endif
+    NSString *protectedUrl = [sUrl stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *protectedImageUrl = [sImageUrl stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     NSLog(@"Protected URL:%@", protectedUrl);
-    NSString *imageUrl = [NSString stringWithFormat:@"\"%@\"", sUrl];
+    NSString *imageUrl = [NSString stringWithFormat:@"\"%@\"", protectedImageUrl];
     NSString *buttonUrl = [NSString stringWithFormat:@"\"http://pinterest.com/pin/create/button/?url=%@&media=%@&description=%@\"", protectedUrl, protectedImageUrl, self.desc];
     
     
     NSMutableString *htmlString = [[NSMutableString alloc] initWithCapacity:1000];
     [htmlString appendFormat:@"<html> <body>"];
     [htmlString appendFormat:@"<p align=\"center\"><a href=%@ class=\"pin-it-button\" count-layout=\"horizontal\"><img border=\"0\" src=\"http://assets.pinterest.com/images/PinExt.png\" title=\"Pin It\" /></a></p>", buttonUrl];
-    [htmlString appendFormat:@"<p align=\"center\"><img width=\"400px\" height = \"400px\" src=%@></img></p>", imageUrl];
+    [htmlString appendFormat:@"<p align=\"center\"><img src=%@></img></p>", imageUrl]; //width=\"400px\" height = \"400px\"
     [htmlString appendFormat:@"<script type=\"text/javascript\" src=\"//assets.pinterest.com/js/pinit.js\"></script>"];
     [htmlString appendFormat:@"</body> </html>"];
     return htmlString;

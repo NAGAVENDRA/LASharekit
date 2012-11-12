@@ -52,7 +52,7 @@ typedef enum {
 
 #pragma mark -
 
-@interface LASharekit () <MFMailComposeViewControllerDelegate, FBLoginViewDelegate>
+@interface LASharekit () <MFMailComposeViewControllerDelegate, FBLoginViewDelegate, UIAlertViewDelegate>
 
 // Controller   -> Is used to present modalViews (is the target)
 // title        -> Is used for the title in facebook, twitter and pinterest, then in the subject for email
@@ -465,12 +465,32 @@ typedef enum {
     NSAssert(_url, @"Url must not be nil.");
     NSAssert(_imageUrl, @"ImageUrl must not be nil for Pinterest.");
     
-    PinterestViewController *pinVC = [[PinterestViewController alloc] init:self.url imageUrl:self.imageUrl description:self.text];
-    [self.controller presentModalViewController:pinVC animated:YES];
-    
-#if !__has_feature(objc_arc)
-    [pinVC autorelease];
-#endif
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"pinit12://pinterest.com/pin/create/bookmarklet/?url=%@&media=%@&description=%@\"", self.url, self.imageUrl, self.text]];
+    if ([[UIApplication sharedApplication] canOpenURL:url])
+    {
+        [[UIApplication sharedApplication] openURL:url];
+    }
+    else
+    {
+        // ask for download the app
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Pinterest", @"")
+                                                        message:NSLocalizedString(@"Would you like to download Pinterest Application to share?", @"")
+                                                       delegate:self
+                                              cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                              otherButtonTitles:NSLocalizedString(@"App Store", @""), NSLocalizedString(@"Open pinterest.com", @""), nil];
+        
+        [alert show];
+        
+        // else
+        /*
+         PinterestViewController *pinVC = [[PinterestViewController alloc] init:self.url imageUrl:self.imageUrl description:self.text];
+         [self.controller presentModalViewController:pinVC animated:YES];
+         
+         #if !__has_feature(objc_arc)
+         [pinVC autorelease];
+         #endif
+         */
+    }
 }
 
 // EMAIL
@@ -636,6 +656,39 @@ typedef enum {
                                                 }
                                             }];
                                              
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex)
+    {
+        case 0: // cancel
+            
+            break;
+            
+        case 1: // download the app
+            NSLog(@"");
+            NSString *stringURL = @"http://itunes.apple.com/us/app/pinterest/id429047995?mt=8";
+            NSURL *url = [NSURL URLWithString:stringURL];
+            [[UIApplication sharedApplication] openURL:url];
+            
+            break;
+            
+        case 2: // open pinterest.com
+            NSLog(@"");
+            PinterestViewController *pinVC = [[PinterestViewController alloc] init:self.url imageUrl:self.imageUrl description:self.text];
+            [self.controller presentModalViewController:pinVC animated:YES];
+            
+#if !__has_feature(objc_arc)
+            [pinVC autorelease];
+#endif
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #pragma mark - MailComposeDelegate
