@@ -16,14 +16,19 @@ Build and run the `LASharekitExample` project in Xcode to see `LASharekit` in ac
 
 Requeriments
 ==========
+
+LASharekit can be used in iOS5 and iOS6. Work with ARC and non-ARC projects.
+
 · Xcode 4.5 or higher
 
 · Apple LLVM compiler
 
-· iOS 5.0 or higher
+· iOS 4.3 or higher
 
-Libraries
+Instructions
 ==========
+
+Just drag and drop the project files to your project, then add the following libraries:
 
 iOS5:
 - FacebookSDK.framework (from facebook) -> https://developers.facebook.com/ios/
@@ -50,17 +55,15 @@ Reachability:
 
 Using facebook in iOS5:
 
-* You must create a facebook app in [their site](https://developers.facebook.com/apps)
+* You must create a facebook app in [their site](https://developers.facebook.com/apps).
 * Then add the `FacebookAppID` to the `info.plist` file.
-* Add the URLScheme too (it's like `fbYOUR_FACEBOOKAPPID`)
-* Add the facebook methods in the AppDelegate (in the example you can see this)
+* Add the URLScheme too (it's like `fbYOUR_FACEBOOKAPPID`).
+* Configure the AppDelegate to work with the FacebookSDK (in the example you can see this).
 
+Note: If you are not using ARC in your project, add `-fobjc-arc` as a compiler flag for the `REComposeViewController` classes.
 
 Usage
 ==========
-LASharekit can be used in iOS5 and iOS6. Work with ARC and non-ARC projects.
-
-Note: If you are not using ARC in your project, add `-fobjc-arc` as a compiler flag for the `REComposeViewController` classes.
 
 * Init with completion blocks (controller is the target to show the modals)
 
@@ -120,7 +123,7 @@ Actions:
 
 Known Issues:
 ==========
-The `FacebookAppID` don't work in the `info.plist` file with the simulator (iOS6, FacebookSDK 3.1).
+The FacebookSDK 3.1 don't work with the simulator in iOS6 (problems with the `FacebookAppID`).
 
 
 Credits:

@@ -40,12 +40,12 @@ typedef void (^MyCompletionBlock)();
 @property (nonatomic, retain) UIImage *image;
 
 // INITS
-- (id)init;
-- (id)init:(UIImage *)image_;
+- (id)init:(id)controller_;
 - (id)init:(id)controller_ title:(NSString *)title_ text:(NSString *)text_ image:(UIImage *)image_ url:(NSURL *)url_;
 - (id)init:(id)controller_ title:(NSString *)title_ text:(NSString *)text_ image:(UIImage *)image_ url:(NSURL *)url_ imageUrl:(NSURL *)imageUrl_;
 - (id)init:(id)controller_ title:(NSString *)title_ text:(NSString *)text_ image:(UIImage *)image_ url:(NSURL *)url_  completionDone:(MyCompletionBlock)blockDone completionCanceled:(MyCompletionBlock)blockCanceled;
 - (id)init:(id)controller_ title:(NSString *)title_ text:(NSString *)text_ image:(UIImage *)image_ url:(NSURL *)url_  imageUrl:(NSURL *)imageUrl_ completionDone:(MyCompletionBlock)blockDone completionCanceled:(MyCompletionBlock)blockCanceled;
+- (id)initWithImage:(UIImage *)image_;
 
 // BLOCKS
 - (void) setCompletionDone:(MyCompletionBlock)blockDone;
@@ -54,6 +54,7 @@ typedef void (^MyCompletionBlock)();
 - (void) setCompletionSaved:(MyCompletionBlock)blockSaved;
 
 // FUNCTIONS
+- (void)setController:(id)controller_;
 - (void)setController:(id)controller_ title:(NSString *)title_ text:(NSString *)text_ image:(UIImage *)image_ url:(NSURL *)url_;
 - (void)setController:(id)controller_ title:(NSString *)title_ text:(NSString *)text_ image:(UIImage *)image_ url:(NSURL *)url_ imageUrl:(NSURL *)imageUrl_;
 - (void)setController:(id)controller_ title:(NSString *)title_ text:(NSString *)text_ image:(UIImage *)image_ url:(NSURL *)url_ completionDone:(MyCompletionBlock)blockDone completionCanceled:(MyCompletionBlock)blockCanceled;

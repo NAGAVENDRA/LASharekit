@@ -59,7 +59,7 @@ typedef void (^REComposeViewControllerCompletionHandler)(REComposeResult result)
 - (void)setAttachmentImage:(UIImage *)attachmentImage;
 
 @property (copy, nonatomic) REComposeViewControllerCompletionHandler completionHandler;
-@property (weak, nonatomic) id <REComposeViewControllerDelegate> delegate;
+@property (assign, nonatomic) id <REComposeViewControllerDelegate> delegate;
 @property (assign, readwrite, nonatomic) NSInteger cornerRadius;
 
 @end

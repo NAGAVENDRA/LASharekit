@@ -34,7 +34,7 @@
 
 @property (readonly, nonatomic) UIView *attachmentView;
 @property (readonly, nonatomic) UIImageView *attachmentImageView;
-@property (weak, readwrite, nonatomic) UIViewController <REComposeSheetViewDelegate> *delegate;
+@property (assign, readwrite, nonatomic) UIViewController <REComposeSheetViewDelegate> *delegate;
 @property (readonly, nonatomic) UINavigationItem *navigationItem;
 @property (readonly, nonatomic) UINavigationBar *navigationBar;
 @property (readonly, nonatomic) UIView *textViewContainer;
@@ -43,8 +43,6 @@
 @end
 
 @protocol REComposeSheetViewDelegate <NSObject>
-
 - (void)cancelButtonPressed;
 - (void)postButtonPressed;
-
 @end

@@ -82,19 +82,17 @@ typedef enum {
     return self;
 }
 
-- (id)init:(UIImage *)image_
+- (id)init:(id)controller_
 {
     self = [super init];
     if (self)
     {
-        NSAssert(image_, @"Image must not be nil.");
-        
-        self.controller     = nil;
+        self.controller     = controller_;
         self.title          = nil;
         self.text           = nil;
         self.url            = nil;
         self.imageUrl       = nil;
-        self.image          = image_;
+        self.image          = nil;
     }
     return self;
 }
@@ -160,6 +158,23 @@ typedef enum {
         self.text           = text_;
         self.url            = url_;
         self.imageUrl       = imageUrl_;
+        self.image          = image_;
+    }
+    return self;
+}
+
+- (id)initWithImage:(UIImage *)image_
+{
+    self = [super init];
+    if (self)
+    {
+        NSAssert(image_, @"Image must not be nil.");
+        
+        self.controller     = nil;
+        self.title          = nil;
+        self.text           = nil;
+        self.url            = nil;
+        self.imageUrl       = nil;
         self.image          = image_;
     }
     return self;
@@ -385,12 +400,12 @@ typedef enum {
 // TWITTER
 - (void) tweet
 {
+    NSAssert(self.controller, @"ViewController must not be nil.");
+    
     // share to twitter
     // esto lo hago solo si la version del sistema es menor al 6.0
     if (SYSTEM_VERSION_LESS_THAN(@"6.0"))
     {
-        NSAssert(self.controller, @"ViewController must not be nil.");
-        
         TWTweetComposeViewController *tweetVC = [[TWTweetComposeViewController alloc] init];
 #if !__has_feature(objc_arc)
         [tweetVC autorelease];
@@ -425,8 +440,6 @@ typedef enum {
     }
     else
     {
-        NSAssert(self.controller, @"ViewController must not be nil.");
-        
         SLComposeViewController *socialComposer = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
         if (self.title != nil)
             [socialComposer setTitle:self.title];
@@ -563,26 +576,36 @@ typedef enum {
 // TITLE
 - (void) copyTitleToPasteboard
 {
+    NSAssert(self.title, @"Title must not be nil.");
+    
     [self copyToPasteBoard:self.title type:typeString];
 }
 // TEXT
 - (void) copyTextToPasteboard
 {
+    NSAssert(self.text, @"Text must not be nil.");
+    
     [self copyToPasteBoard:self.text type:typeString];
 }
 // URL
 - (void) copyUrlToPasteboard
 {
+    NSAssert(self.url, @"Url must not be nil.");
+    
     [self copyToPasteBoard:self.url type:typeUrl];
 }
 // IMAGE
 - (void) copyImageToPasteboard
 {
+    NSAssert(self.image, @"Image must not be nil.");
+    
     [self copyToPasteBoard:self.image type:typeImage];
 }
 // IMAGEURL
 - (void) copyImageUrlToPasteboard
 {
+    NSAssert(self.imageUrl, @"ImageUrl must not be nil.");
+    
     [self copyToPasteBoard:self.imageUrl type:typeUrl];
 }
 
