@@ -31,6 +31,7 @@ typedef void (^MyCompletionBlock)();
 // Url          -> Is used for the url in facebook, twitter and pinterest, then in the boddy for email
 // ImageUrl     -> Is used for pinterest, to show the image
 // Image        -> Is used for the image in facebook, twitter and pinterest, then in the attached for email and to save in the cameraroll
+// tweetCC      -> Is used to insert a cc on the tweet
 
 @property (nonatomic, retain) id controller;
 @property (nonatomic, retain) NSString *title;
@@ -38,6 +39,7 @@ typedef void (^MyCompletionBlock)();
 @property (nonatomic, retain) NSURL *url;
 @property (nonatomic, retain) NSURL *imageUrl;
 @property (nonatomic, retain) UIImage *image;
+@property (nonatomic, retain) NSString *tweetCC;
 
 // INITS
 - (id)init:(id)controller_;

@@ -11,7 +11,7 @@
 #import "LASharekit.h"
 #import "RDActionSheet.h"
 
-#define PINTEREST_IMAGE_URL         @"http://www.gravatar.com/avatar/da597df6cb19cbbaffa928604381b865.png"
+#define PINTEREST_IMAGE_URL         @"https://raw.github.com/Lascorbe/LASharekit/master/captura.png"
 
 @interface ViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate>
 {
@@ -70,24 +70,24 @@
     //////////////////////
     // ** LASharekit ** //
     //////////////////////
-    laSharekit = [[LASharekit alloc] init];
-    [laSharekit setController:self
-                        title:nil
-                         text:nil
-                        image:nil
-                          url:nil
-               completionDone:^{
-                   UIImageView *Checkmark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark"]];
-                   [APPDELEGATE mostratHUD:YES conTexto:NSLocalizedString(@"Shared!", @"") conView:Checkmark dimBackground:YES];
-                   [APPDELEGATE ocultarHUDConCustomView:YES despuesDe:2.0];
-                   [Checkmark release];
-                   
-               } completionCanceled:^{
-                   UIImageView *errorMark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Errormark"]];
-                   [APPDELEGATE mostratHUD:YES conTexto:NSLocalizedString(@"Canceled", @"") conView:errorMark dimBackground:YES];
-                   [APPDELEGATE ocultarHUDConCustomView:YES despuesDe:2.0];
-                   [errorMark release];
-               }];
+    
+    // INIT
+    // The parameter passed (self) is the ViewController to load the modal views
+    laSharekit = [[LASharekit alloc] init:self];
+    
+    // COMPLETION BLOCKS
+    [laSharekit setCompletionDone:^{
+        UIImageView *Checkmark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark"]];
+        [APPDELEGATE mostratHUD:YES conTexto:NSLocalizedString(@"Shared!", @"") conView:Checkmark dimBackground:YES];
+        [APPDELEGATE ocultarHUDConCustomView:YES despuesDe:2.0];
+        [Checkmark release];
+    }];
+    [laSharekit setCompletionCanceled:^{
+        UIImageView *errorMark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Errormark"]];
+        [APPDELEGATE mostratHUD:YES conTexto:NSLocalizedString(@"Canceled", @"") conView:errorMark dimBackground:YES];
+        [APPDELEGATE ocultarHUDConCustomView:YES despuesDe:2.0];
+        [errorMark release];
+    }];
     [laSharekit setCompletionFailed:^{
         UIImageView *errorMark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Errormark"]];
         [APPDELEGATE mostratHUD:YES conTexto:NSLocalizedString(@"Failed", @"") conView:errorMark dimBackground:YES];
@@ -197,6 +197,7 @@
     laSharekit.text     = txtText.text;
     laSharekit.imageUrl = [NSURL URLWithString:PINTEREST_IMAGE_URL];
     laSharekit.image    = imgView.image;
+    laSharekit.tweetCC  = @"cc @LuisEAM";
     
     
     RDActionSheet *actionSheet = [[RDActionSheet alloc] initWithCancelButtonTitle:NSLocalizedString(@"Cancel", @"")

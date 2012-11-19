@@ -60,6 +60,7 @@ typedef enum {
 // Url          -> Is used for the url in facebook, twitter and pinterest, then in the boddy for email
 // ImageUrl     -> Is used for pinterest, to show the image
 // Image        -> Is used for the image in facebook, twitter and pinterest, then in the attached for email and to save in the cameraroll
+// tweetCC      -> Is used to insert a cc on the tweet
 
 @end
 
@@ -78,6 +79,7 @@ typedef enum {
         self.url            = nil;
         self.imageUrl       = nil;
         self.image          = nil;
+        self.tweetCC        = nil;
     }
     return self;
 }
@@ -93,6 +95,7 @@ typedef enum {
         self.url            = nil;
         self.imageUrl       = nil;
         self.image          = nil;
+        self.tweetCC        = nil;
     }
     return self;
 }
@@ -108,6 +111,7 @@ typedef enum {
         self.url            = url_;
         self.imageUrl       = nil;
         self.image          = image_;
+        self.tweetCC        = nil;
     }
     return self;
 }
@@ -123,6 +127,7 @@ typedef enum {
         self.url            = url_;
         self.imageUrl       = imageUrl_;
         self.image          = image_;
+        self.tweetCC        = nil;
     }
     return self;
 }
@@ -141,6 +146,7 @@ typedef enum {
         self.url            = url_;
         self.imageUrl       = nil;
         self.image          = image_;
+        self.tweetCC        = nil;
     }
     return self;
 }
@@ -159,6 +165,7 @@ typedef enum {
         self.url            = url_;
         self.imageUrl       = imageUrl_;
         self.image          = image_;
+        self.tweetCC        = nil;
     }
     return self;
 }
@@ -176,6 +183,7 @@ typedef enum {
         self.url            = nil;
         self.imageUrl       = nil;
         self.image          = image_;
+        self.tweetCC        = nil;
     }
     return self;
 }
@@ -189,6 +197,7 @@ typedef enum {
     [_url release];
     [_imageUrl release];
     [_image release];
+    [_tweetCC release];
     
     objc_removeAssociatedObjects(self);
     
@@ -228,6 +237,7 @@ typedef enum {
     self.url            = url_;
     self.imageUrl       = nil;
     self.image          = image_;
+    self.tweetCC        = nil;
 }
 
 - (void)setController:(id)controller_ title:(NSString *)title_ text:(NSString *)text_ image:(UIImage *)image_ url:(NSURL *)url_ imageUrl:(NSURL *)imageUrl_
@@ -238,6 +248,7 @@ typedef enum {
     self.url            = url_;
     self.imageUrl       = imageUrl_;
     self.image          = image_;
+    self.tweetCC        = nil;
 }
 
 - (void)setController:(id)controller_ title:(NSString *)title_ text:(NSString *)text_ image:(UIImage *)image_ url:(NSURL *)url_ completionDone:(MyCompletionBlock)blockDone completionCanceled:(MyCompletionBlock)blockCanceled
@@ -251,6 +262,7 @@ typedef enum {
     self.url            = url_;
     self.imageUrl       = nil;
     self.image          = image_;
+    self.tweetCC        = nil;
 }
 
 - (void)setController:(id)controller_ title:(NSString *)title_ text:(NSString *)text_ image:(UIImage *)image_ url:(NSURL *)url_ imageUrl:(NSURL *)imageUrl_ completionDone:(MyCompletionBlock)blockDone completionCanceled:(MyCompletionBlock)blockCanceled
@@ -264,6 +276,7 @@ typedef enum {
     self.url            = url_;
     self.imageUrl       = imageUrl_;
     self.image          = image_;
+    self.tweetCC        = nil;
 }
 
 #pragma mark - SHARE
@@ -411,14 +424,63 @@ typedef enum {
         [tweetVC autorelease];
 #endif
         
-        if (self.title != nil)
-            [tweetVC setTitle:self.title];
-        if (self.text != nil)
-            [tweetVC setInitialText:self.text];
-        if (self.url != nil)
-            [tweetVC addURL:self.url];
+        // IMAGE
         if (self.image != nil)
             [tweetVC addImage:self.image];
+        
+        // TEXT
+        if (self.text != nil)
+        {
+            // URL AND TWEETCC
+            // creo el formato del texto a twittear
+            NSString *format    = @"“%@”";
+            if (self.url != nil)
+                format          = [format stringByAppendingFormat:@" %@", [self.url absoluteString]];
+            if (self.tweetCC != nil)
+                format          = [format stringByAppendingFormat:@" %@", self.tweetCC];
+            
+            // TEXT
+            NSUInteger idx      = self.text.length;
+            // le quito todos los espacios que tenga el texto al principio y al final
+            while([self.text hasPrefix:@" "])
+                self.text = [self.text substringFromIndex:1];
+            while([self.text hasSuffix:@" "])
+            {
+                idx       = idx-1;
+                self.text = [self.text substringToIndex:idx];
+            }
+            
+            
+            // creo el mensaje
+            NSString *message   = [NSString stringWithFormat:format, [NSString stringWithFormat:@"%@…", [self.text substringToIndex:idx]]];
+            
+            // if the message is bigger than 140 characters, then cut the message
+            while (![tweetVC setInitialText:message])
+            {
+                idx -= 5;
+                if (idx > 5)
+                {
+                    message = [NSString stringWithFormat:format, [NSString stringWithFormat:@"%@…", [self.text substringToIndex:idx]]];
+                }
+                else
+                {
+                    [tweetVC setInitialText:[self.url absoluteString]];
+                    break;
+                }
+            }
+        }
+        else
+        {
+            [tweetVC setInitialText:[self.url absoluteString]];
+        }
+        
+        
+        //if (self.title != nil)
+            //[tweetVC setTitle:self.title];
+        //if (self.text != nil)
+            //[tweetVC setInitialText:self.text];
+        //if (self.url != nil)
+            //[tweetVC addURL:self.url];
         
         [tweetVC setCompletionHandler:^(TWTweetComposeViewControllerResult result){
             switch (result) {
@@ -441,14 +503,67 @@ typedef enum {
     else
     {
         SLComposeViewController *socialComposer = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-        if (self.title != nil)
+        
+        // IMAGE
+        if (self.image != nil)
+            [socialComposer addImage:self.image];
+        
+        // TEXT
+        if (self.text != nil)
+        {
+            // URL AND TWEETCC
+            // creo el formato del texto a twittear
+            NSString *format    = @"“%@”";
+            if (self.url != nil)
+                format          = [format stringByAppendingFormat:@" %@", [self.url absoluteString]];
+            if (self.tweetCC != nil)
+                format          = [format stringByAppendingFormat:@" %@", self.tweetCC];
+            
+            
+            // TEXT
+            NSUInteger idx      = self.text.length;
+            // le quito todos los espacios que tenga el texto al principio y al final
+            while([self.text hasPrefix:@" "])
+                self.text = [self.text substringFromIndex:1];
+            while([self.text hasSuffix:@" "])
+            {
+                idx       = idx-1;
+                self.text = [self.text substringToIndex:idx];
+            }
+            // creo el mensaje
+            NSString *message   = [NSString stringWithFormat:format, [NSString stringWithFormat:@"%@…", [self.text substringToIndex:idx]]];
+            
+            
+            // if the message is bigger than 140 characters, then cut the message
+            while (![socialComposer setInitialText:message])
+            {
+                idx -= 5;
+                if (idx > 5)
+                {
+                    message = [NSString stringWithFormat:format, [NSString stringWithFormat:@"%@…", [self.text substringToIndex:idx]]];
+                }
+                else
+                {
+                    [socialComposer setInitialText:[self.url absoluteString]];
+                    break;
+                }
+            }
+        }
+        else
+        {
+            [socialComposer setInitialText:[self.url absoluteString]];
+        }
+        
+        
+        
+        /*if (self.title != nil)
             [socialComposer setTitle:self.title];
         if (self.text != nil)
             [socialComposer setInitialText:self.text];
         if (self.url != nil)
             [socialComposer addURL:self.url];
         if (self.image != nil)
-            [socialComposer addImage:self.image];
+            [socialComposer addImage:self.image];*/
         
         [socialComposer setCompletionHandler:^(SLComposeViewControllerResult result){
             switch (result) {
