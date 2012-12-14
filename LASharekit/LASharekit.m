@@ -573,6 +573,7 @@ typedef enum {
                     break;
                 case SLComposeViewControllerResultDone:
                     [self completionResult:typeDone];
+                    [self.controller dismissViewControllerAnimated:YES completion:nil];
                     
                     break;
                 default:
