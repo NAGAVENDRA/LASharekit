@@ -19,7 +19,7 @@
  */
 
 
-
+#import <Accounts/Accounts.h>
 #import <Twitter/Twitter.h>
 #import <Social/Social.h>
 #import <objc/runtime.h>
@@ -587,6 +587,69 @@ typedef enum {
     }
 }
 
+
+- (void) follow:(NSString *)screenName
+{
+    // follow on twitter
+    // esto lo hago solo si la version del sistema es menor al 5.0, porque la ACAccountStore solo funciona a partir de esta version
+    ACAccountStore *accountStore    = [[ACAccountStore alloc] init];
+    ACAccountType *accountType      = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    
+    [accountStore requestAccessToAccountsWithType:accountType withCompletionHandler:^(BOOL granted, NSError *error)
+     {
+         if(granted)
+         {
+             // Get the list of Twitter accounts.
+             NSArray *accountsArray = [accountStore accountsWithAccountType:accountType];
+             
+             // For the sake of brevity, we'll assume there is only one Twitter account present.
+             // You would ideally ask the user which account they want to tweet from, if there is more than one Twitter account present.
+             if ([accountsArray count] > 0)
+             {
+                 // Grab the initial Twitter account to tweet from.
+                 ACAccount *twitterAccount = [accountsArray objectAtIndex:0];
+                 
+                 NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
+                 [tempDict setValue:screenName forKey:@"screen_name"];
+                 [tempDict setValue:@"true" forKey:@"follow"];
+                 
+                 TWRequest *postRequest = [[[TWRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.twitter.com/1/friendships/create.json"]
+                                                               parameters:tempDict
+                                                            requestMethod:TWRequestMethodPOST] autorelease];
+                 
+                 
+                 [postRequest setAccount:twitterAccount];
+                 
+                 [postRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error)
+                  {
+                      NSString *output = [NSString stringWithFormat:@"ACAccount HTTP response TWITTER status: %i", [urlResponse statusCode]];
+                      NSLog(@"%@", output);
+                      
+                      if ([urlResponse statusCode] == 200)
+                      {
+                          // do something when is following
+                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Twitter", @"")
+                                                                          message:[NSString stringWithFormat:NSLocalizedString(@"Now you are following to %@", @""), screenName]
+                                                                         delegate:nil
+                                                                cancelButtonTitle:NSLocalizedString(@"Ok", @"")
+                                                                otherButtonTitles:nil];
+                          
+                          [alert show];
+#if !__has_feature(objc_arc)
+                          [alert release];
+#endif
+                      }
+                      
+                  }];
+                 
+                 [tempDict release];
+             }
+         }
+     }];
+}
+
+
+
 // PINTEREST
 - (void) pinIt
 {
@@ -608,6 +671,9 @@ typedef enum {
                                               otherButtonTitles:NSLocalizedString(@"App Store", @""), NSLocalizedString(@"Open pinterest.com", @""), nil];
         
         [alert show];
+#if !__has_feature(objc_arc)
+        [alert release];
+#endif
         
         // else
         /*

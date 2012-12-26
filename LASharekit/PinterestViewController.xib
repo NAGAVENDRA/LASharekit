@@ -130,7 +130,7 @@
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIBarStyle">1</int>
-						<array class="NSMutableArray" key="IBUIItems">
+						<array key="IBUIItems">
 							<object class="IBUINavigationItem" id="801548903">
 								<reference key="IBUINavigationBar" ref="278885756"/>
 								<reference key="IBUITitleView" ref="146755032"/>

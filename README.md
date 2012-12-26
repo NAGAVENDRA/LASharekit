@@ -65,21 +65,18 @@ Note: If you are not using ARC in your project, add `-fobjc-arc` as a compiler f
 Usage
 ==========
 
-* Init with completion blocks (controller is the target to show the modals)
+* Init with completion blocks (the @parameter passed in the init method is the target to show the modals)
 
 ``` objective-c
-    laSharekit = [[LASharekit alloc] init];
-    [laSharekit setController:self
-                        title:nil
-                         text:nil
-                        image:nil
-                          url:nil
-               completionDone:^{
-                   // Do something when done
-                   
-               } completionCanceled:^{
-                   // Do something when canceled
-               }];
+    laSharekit = [[LASharekit alloc] init:self];
+    
+    // set completion blocks
+    [laSharekit setCompletionDone:^{
+        // Do something when done
+    }];
+    [laSharekit setCompletionCanceled:^{
+        // Do something when canceled
+    }];
     [laSharekit setCompletionFailed:^{
         // Do something when failed
     }];
@@ -92,41 +89,41 @@ Usage
 * Set the properties and call to action
 
 ``` objective-c
+    // set the variables
+    laSharekit.title    = @"Some title";
+    laSharekit.url      = [NSURL URLWithString:@"https://github.com/Lascorbe/LASharekit"];
+    laSharekit.text     = @"Some text";
+    laSharekit.imageUrl = [NSURL URLWithString:@"https://github.com/Lascorbe/LASharekit/image"];
+    laSharekit.image    = imageView.image; // some UIImage
 
-// set the variables
-laSharekit.title    = @"Some title";
-laSharekit.url      = [NSURL URLWithString:@"https://github.com/Lascorbe/LASharekit"];
-laSharekit.text     = @"Some text";
-laSharekit.imageUrl = [NSURL URLWithString:@"https://github.com/Lascorbe/LASharekit/image"];
-laSharekit.image    = imageView.image; // some UIImage
-
-// call the action
-[laSharekit tweetIt];
+    // call the action
+    [laSharekit tweetIt];
 ```
 
 
-Actions:
+Actions
 ==========
 ``` objective-c
-- (void) facebookPost;              // Post to FACEBOOK
-- (void) tweet;                     // Tweet
-- (void) pinIt;                     // Pin it (PINTEREST)
-- (void) emailIt;                   // EMAIL It
-- (void) saveImage;                 // SAVE IMAGE TO CAMERAROLL
+- (void) facebookPost;                  // Post to FACEBOOK
+- (void) tweet;                         // Tweet
+- (void) follow:(NSString *)screenName  // follow someone in twitter
+- (void) pinIt;                         // Pin it (PINTEREST)
+- (void) emailIt;                       // EMAIL It
+- (void) saveImage;                     // SAVE IMAGE TO CAMERAROLL
 
-- (void) copyTitleToPasteboard;     // COPY THE TITLE TO THE PASTEBOARD
-- (void) copyTextToPasteboard;      // COPY THE TEXT TO THE PASTEBOARD
-- (void) copyUrlToPasteboard;       // COPY THE URL TO THE PASTEBOARD
-- (void) copyImageToPasteboard;     // COPY THE IMAGE TO THE PASTEBOARD
-- (void) copyImageUrlToPasteboard;  // COPY THE IMAGEURL TO THE PASTEBOARD
+- (void) copyTitleToPasteboard;         // COPY THE TITLE TO THE PASTEBOARD
+- (void) copyTextToPasteboard;          // COPY THE TEXT TO THE PASTEBOARD
+- (void) copyUrlToPasteboard;           // COPY THE URL TO THE PASTEBOARD
+- (void) copyImageToPasteboard;         // COPY THE IMAGE TO THE PASTEBOARD
+- (void) copyImageUrlToPasteboard;      // COPY THE IMAGEURL TO THE PASTEBOARD
 ```
 
-Known Issues:
+Known Issues
 ==========
 The FacebookSDK 3.1 don't work with the simulator in iOS6 (problems with the `FacebookAppID`).
 
 
-Credits:
+Credits
 ==========
 
 Matej Bukovinski creator of [MBProgressHUD](https://github.com/jdg/MBProgressHUD)

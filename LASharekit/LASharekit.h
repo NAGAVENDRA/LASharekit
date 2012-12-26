@@ -67,8 +67,12 @@ typedef void (^MyCompletionBlock)();
 - (void) tweet;                     // TWITTER
 - (void) pinIt;                     // PINTEREST
 - (void) emailIt;                   // EMAIL
-- (void) saveImage;                 // SAVE IMAGE TO CAMERAROLL
 
+// Actions
+- (void) follow:(NSString *)screenName;
+
+// System
+- (void) saveImage;                 // SAVE IMAGE TO CAMERAROLL
 - (void) copyTitleToPasteboard;     // COPY THE TITLE TO THE PASTEBOARD
 - (void) copyTextToPasteboard;      // COPY THE TEXT TO THE PASTEBOARD
 - (void) copyUrlToPasteboard;       // COPY THE URL TO THE PASTEBOARD
