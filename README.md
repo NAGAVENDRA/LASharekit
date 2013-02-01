@@ -1,7 +1,7 @@
 LASharekit
 ==========
 
-Luis Ascorbe
+[Luis Ascorbe](http://about.me/lascorbe)
 
 Tweet me [@LuisEAM](http://twitter.com/luiseam)
 
