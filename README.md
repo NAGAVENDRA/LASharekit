@@ -1,11 +1,13 @@
 LASharekit
 ==========
 
-Luis Ascorbe
+[Luis Ascorbe](http://about.me/lascorbe)
 
 Tweet me [@LuisEAM](http://twitter.com/luiseam)
 
 `LASharekit` automatically share to facebook, twitter, pinterest or by email. With an extra to save images to cameraroll and copy to the pasteboard.
+
+Of course, I'll love to hear your using my control in your app, you can contact me (<devlascorbe@gmail.com>) anytime
 
 ![Screenshot of LASharekit](https://raw.github.com/Lascorbe/LASharekit/master/captura.png  "LASharekit Screenshot")
 
