@@ -701,6 +701,7 @@ typedef enum {
         
         MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
         controller.mailComposeDelegate = self;
+        
         if (self.title)
             [controller setSubject:self.title];
         
