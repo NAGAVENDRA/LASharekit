@@ -513,7 +513,7 @@ typedef enum {
         {
             // URL AND TWEETCC
             // creo el formato del texto a twittear
-            NSString *format    = @"“%@”";
+            NSString *format    = @"%@";
             if (self.url != nil)
                 format          = [format stringByAppendingFormat:@" %@", [self.url absoluteString]];
             if (self.tweetCC != nil)
@@ -531,7 +531,7 @@ typedef enum {
                 self.text = [self.text substringToIndex:idx];
             }
             // creo el mensaje
-            NSString *message   = [NSString stringWithFormat:format, [NSString stringWithFormat:@"%@…", [self.text substringToIndex:idx]]];
+            NSString *message   = [NSString stringWithFormat:format, [NSString stringWithFormat:@"%@", [self.text substringToIndex:idx]]];
             
             
             // if the message is bigger than 140 characters, then cut the message
@@ -613,9 +613,12 @@ typedef enum {
                  [tempDict setValue:screenName forKey:@"screen_name"];
                  [tempDict setValue:@"true" forKey:@"follow"];
                  
-                 TWRequest *postRequest = [[[TWRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.twitter.com/1/friendships/create.json"]
+                 TWRequest *postRequest = [[TWRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.twitter.com/1/friendships/create.json"]
                                                                parameters:tempDict
-                                                            requestMethod:TWRequestMethodPOST] autorelease];
+                                                            requestMethod:TWRequestMethodPOST];
+#if !__has_feature(objc_arc)
+                 [postRequest autorelease];
+#endif
                  
                  
                  [postRequest setAccount:twitterAccount];
@@ -642,7 +645,9 @@ typedef enum {
                       
                   }];
                  
+#if !__has_feature(objc_arc)
                  [tempDict release];
+#endif
              }
          }
      }];
@@ -700,7 +705,7 @@ typedef enum {
             [controller setSubject:self.title];
         
         //Create a string with HTML formatting for the email body
-        NSMutableString *emailBody = [[[NSMutableString alloc] initWithString:@"<html><body>"] retain];
+        NSMutableString *emailBody = [[NSMutableString alloc] initWithString:@"<html><body>"];
         //Add some text to it however you want
         if (self.url)
         {
@@ -721,9 +726,10 @@ typedef enum {
             [controller addAttachmentData:data mimeType:@"image/png" fileName:@"image"];
         }
         
-        if (controller) [self.controller presentModalViewController:controller animated:YES];
+        [self.controller presentModalViewController:controller animated:YES];
 #if !__has_feature(objc_arc)
         [controller release];
+        [emailBody release];
 #endif
     }
     else

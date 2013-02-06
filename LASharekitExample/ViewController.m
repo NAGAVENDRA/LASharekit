@@ -63,7 +63,9 @@
     // add gesture recognizers to the image view
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     [imgView addGestureRecognizer:singleTap];
+#if !__has_feature(objc_arc)
     [singleTap release];
+#endif
     
     
     
@@ -80,25 +82,33 @@
         UIImageView *Checkmark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark"]];
         [APPDELEGATE mostratHUD:YES conTexto:NSLocalizedString(@"Shared!", @"") conView:Checkmark dimBackground:YES];
         [APPDELEGATE ocultarHUDConCustomView:YES despuesDe:2.0];
+#if !__has_feature(objc_arc)
         [Checkmark release];
+#endif
     }];
     [laSharekit setCompletionCanceled:^{
         UIImageView *errorMark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Errormark"]];
         [APPDELEGATE mostratHUD:YES conTexto:NSLocalizedString(@"Canceled", @"") conView:errorMark dimBackground:YES];
         [APPDELEGATE ocultarHUDConCustomView:YES despuesDe:2.0];
+#if !__has_feature(objc_arc)
         [errorMark release];
+#endif
     }];
     [laSharekit setCompletionFailed:^{
         UIImageView *errorMark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Errormark"]];
         [APPDELEGATE mostratHUD:YES conTexto:NSLocalizedString(@"Failed", @"") conView:errorMark dimBackground:YES];
         [APPDELEGATE ocultarHUDConCustomView:YES despuesDe:2.0];
+#if !__has_feature(objc_arc)
         [errorMark release];
+#endif
     }];
     [laSharekit setCompletionSaved:^{
         UIImageView *Checkmark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark"]];
         [APPDELEGATE mostratHUD:YES conTexto:NSLocalizedString(@"Saved!", @"") conView:Checkmark dimBackground:YES];
         [APPDELEGATE ocultarHUDConCustomView:YES despuesDe:2.0];
+#if !__has_feature(objc_arc)
         [Checkmark release];
+#endif
     }];
 }
 
