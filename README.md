@@ -25,7 +25,7 @@ LASharekit can be used in iOS5 and iOS6. Work with ARC and non-ARC projects.
 
 · Apple LLVM compiler
 
-· iOS 4.3 or higher
+· iOS 5.0 or higher
 
 Instructions
 ==========
