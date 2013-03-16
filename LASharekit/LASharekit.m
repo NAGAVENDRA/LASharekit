@@ -565,7 +565,7 @@ typedef enum {
             [socialComposer addURL:self.url];
         if (self.image != nil)
             [socialComposer addImage:self.image];*/
-        
+        __weak SLComposeViewController *weakSocialComposer = socialComposer;
         [socialComposer setCompletionHandler:^(SLComposeViewControllerResult result){
             switch (result) {
                 case SLComposeViewControllerResultCancelled:
@@ -574,15 +574,14 @@ typedef enum {
                     break;
                 case SLComposeViewControllerResultDone:
                     [self completionResult:typeDone];
-                    [socialComposer dismissViewControllerAnimated:YES completion:nil];
-                    
                     break;
                 default:
                     [self completionResult:typeFailed];
                     break;
             }
-            
-            //[controller dismissViewControllerAnimated:YES completion:nil];
+            [weakSocialComposer dismissViewControllerAnimated:YES completion:^{
+                // Nothing to do
+            }];
         }];
         
         [self.controller presentModalViewController:socialComposer animated:YES];
