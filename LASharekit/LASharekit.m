@@ -334,6 +334,7 @@ typedef enum {
                             break;
                             
                         case REComposeResultPosted:
+                        {
                             [self performPublishAction:^{
                                 
                                 // paso los parametros para mandar al feed del usuario 
@@ -360,7 +361,7 @@ typedef enum {
                                                        }];
                             }];
                             break;
-                            
+                        }
                         default:
                             break;
                     }
@@ -881,14 +882,16 @@ typedef enum {
             break;
             
         case 1: // download the app
+        {
             NSLog(@"");
             NSString *stringURL = @"http://itunes.apple.com/us/app/pinterest/id429047995?mt=8";
             NSURL *url = [NSURL URLWithString:stringURL];
             [[UIApplication sharedApplication] openURL:url];
             
             break;
-            
+        }
         case 2: // open pinterest.com
+        {
             NSLog(@"");
             PinterestViewController *pinVC = [[PinterestViewController alloc] init:self.url imageUrl:self.imageUrl description:self.text];
             [self.controller presentModalViewController:pinVC animated:YES];
@@ -897,7 +900,7 @@ typedef enum {
             [pinVC autorelease];
 #endif
             break;
-            
+        }
         default:
             break;
     }
