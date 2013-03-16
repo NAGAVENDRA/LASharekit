@@ -325,6 +325,7 @@ typedef enum {
                 //composeViewController.navigationItem.rightBarButtonItem.tintColor   = [UIColor colorWithRed:70.0/255.0 green:91.0/255.0 blue:192.0/255.0 alpha:1.0];
                 
                 // Alternative use with REComposeViewControllerCompletionHandler
+                __weak REComposeViewController *weakComposeViewController = composeViewController;
                 composeViewController.completionHandler = ^(REComposeResult result)
                 {
                     switch (result)
@@ -339,8 +340,8 @@ typedef enum {
                                 
                                 // paso los parametros para mandar al feed del usuario 
                                 NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                               UIImagePNGRepresentation(composeViewController.attachmentImage), @"source",
-                                                               composeViewController.text, @"message",
+                                                               UIImagePNGRepresentation(weakComposeViewController.attachmentImage), @"source",
+                                                               weakComposeViewController.text, @"message",
                                                                [self.url absoluteString], @"link",
                                                                self.title, @"caption",
                                                                nil];
