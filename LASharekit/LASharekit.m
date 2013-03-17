@@ -325,6 +325,7 @@ typedef enum {
                 //composeViewController.navigationItem.rightBarButtonItem.tintColor   = [UIColor colorWithRed:70.0/255.0 green:91.0/255.0 blue:192.0/255.0 alpha:1.0];
                 
                 // Alternative use with REComposeViewControllerCompletionHandler
+                __weak REComposeViewController *weakComposeViewController = composeViewController;
                 composeViewController.completionHandler = ^(REComposeResult result)
                 {
                     switch (result)
@@ -334,12 +335,13 @@ typedef enum {
                             break;
                             
                         case REComposeResultPosted:
+                        {
                             [self performPublishAction:^{
                                 
                                 // paso los parametros para mandar al feed del usuario 
                                 NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                               UIImagePNGRepresentation(composeViewController.attachmentImage), @"source",
-                                                               composeViewController.text, @"message",
+                                                               UIImagePNGRepresentation(weakComposeViewController.attachmentImage), @"source",
+                                                               weakComposeViewController.text, @"message",
                                                                [self.url absoluteString], @"link",
                                                                self.title, @"caption",
                                                                nil];
@@ -360,7 +362,7 @@ typedef enum {
                                                        }];
                             }];
                             break;
-                            
+                        }
                         default:
                             break;
                     }
@@ -564,7 +566,7 @@ typedef enum {
             [socialComposer addURL:self.url];
         if (self.image != nil)
             [socialComposer addImage:self.image];*/
-        
+        __weak SLComposeViewController *weakSocialComposer = socialComposer;
         [socialComposer setCompletionHandler:^(SLComposeViewControllerResult result){
             switch (result) {
                 case SLComposeViewControllerResultCancelled:
@@ -573,15 +575,14 @@ typedef enum {
                     break;
                 case SLComposeViewControllerResultDone:
                     [self completionResult:typeDone];
-                    [socialComposer dismissViewControllerAnimated:YES completion:nil];
-                    
                     break;
                 default:
                     [self completionResult:typeFailed];
                     break;
             }
-            
-            //[controller dismissViewControllerAnimated:YES completion:nil];
+            [weakSocialComposer dismissViewControllerAnimated:YES completion:^{
+                // Nothing to do
+            }];
         }];
         
         [self.controller presentModalViewController:socialComposer animated:YES];
@@ -881,14 +882,16 @@ typedef enum {
             break;
             
         case 1: // download the app
+        {
             NSLog(@"");
             NSString *stringURL = @"http://itunes.apple.com/us/app/pinterest/id429047995?mt=8";
             NSURL *url = [NSURL URLWithString:stringURL];
             [[UIApplication sharedApplication] openURL:url];
             
             break;
-            
+        }
         case 2: // open pinterest.com
+        {
             NSLog(@"");
             PinterestViewController *pinVC = [[PinterestViewController alloc] init:self.url imageUrl:self.imageUrl description:self.text];
             [self.controller presentModalViewController:pinVC animated:YES];
@@ -897,7 +900,7 @@ typedef enum {
             [pinVC autorelease];
 #endif
             break;
-            
+        }
         default:
             break;
     }
